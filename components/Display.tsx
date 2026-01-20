@@ -23,12 +23,14 @@ export default function Display({ expression, value }: DisplayProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.display,
-    borderRadius: 24,
+    borderRadius: 28,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.lg,
     marginBottom: spacing.lg,
     minHeight: 140,
     justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
   },
   expression: {
     color: colors.textSecondary,
