@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Display from '../components/Display';
 import Keypad from '../components/Keypad';
 import { colors, spacing } from '../styles/theme';
