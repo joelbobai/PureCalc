@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
-import Display from '../../components/Display';
-import Keypad from '../../components/Keypad';
-import { colors, spacing } from '../../styles/theme';
-import { getDisplayValue, getExpression, handleInput, initialState } from '../../utils/calculator';
+import Display from '../components/Display';
+import Keypad from '../components/Keypad';
+import { colors, spacing } from '../styles/theme';
+import { getDisplayValue, getExpression, handleInput, initialState } from '../utils/calculator';
 
-export default function CalculatorScreen() {
+export default function HomeScreen() {
   const [state, setState] = useState(initialState);
 
   const displayValue = useMemo(() => getDisplayValue(state), [state]);
