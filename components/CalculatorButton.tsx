@@ -53,10 +53,17 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     minHeight: 64,
-    borderRadius: 24,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     margin: spacing.xs,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.22,
+    shadowRadius: 10,
+    elevation: 6,
   },
   wide: {
     flex: 2,

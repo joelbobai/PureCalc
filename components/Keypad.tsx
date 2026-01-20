@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CalculatorButton from './CalculatorButton';
+import { spacing } from '../styles/theme';
 
 const rows: Array<Array<{ label: string; variant?: 'default' | 'operator' | 'accent' | 'danger' | 'wide' }>> = [
   [
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    marginBottom: spacing.sm,
   },
   row: {
     flexDirection: 'row',

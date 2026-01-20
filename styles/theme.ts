@@ -1,13 +1,17 @@
 export const colors = {
-  background: '#0E0F13',
-  surface: '#1A1C22',
-  display: '#0B0C10',
-  textPrimary: '#FFFFFF',
-  textSecondary: '#9AA0A6',
-  operator: '#FF9F0A',
-  operatorText: '#FFFFFF',
-  accent: '#2A2D36',
-  danger: '#FF453A',
+  background: '#0B1220',
+  surface: '#111827',
+  display: '#0F172A',
+  card: '#121A2E',
+  cardElevated: '#172033',
+  cardBorder: '#22304A',
+  textPrimary: '#F8FAFC',
+  textSecondary: '#CBD5F5',
+  textMuted: '#94A3B8',
+  operator: '#38BDF8',
+  operatorText: '#0F172A',
+  accent: '#1F2937',
+  danger: '#F97316',
 };
 
 export const spacing = {
@@ -21,6 +25,8 @@ export const spacing = {
 export const typography = {
   display: 48,
   expression: 18,
-  button: 26,
-  buttonSmall: 22,
+  button: 24,
+  buttonSmall: 20,
+  label: 16,
+  caption: 13,
 };
