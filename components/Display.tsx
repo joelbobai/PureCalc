@@ -5,16 +5,20 @@ import { colors, spacing, typography } from '../styles/theme';
 type DisplayProps = {
   expression: string;
   value: string;
+  isHidden?: boolean;
 };
 
-export default function Display({ expression, value }: DisplayProps) {
+export default function Display({ expression, value, isHidden = false }: DisplayProps) {
+  const expressionText = isHidden ? 'Calculation hidden' : expression || ' ';
+  const valueText = isHidden ? '••••' : value;
+
   return (
     <View style={styles.container}>
       <Text style={styles.expression} numberOfLines={1}>
-        {expression || ' '}
+        {expressionText}
       </Text>
       <Text style={styles.value} numberOfLines={1} adjustsFontSizeToFit>
-        {value}
+        {valueText}
       </Text>
     </View>
   );
