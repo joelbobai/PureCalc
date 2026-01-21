@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, spacing, typography } from '../styles/theme';
 
 type HistoryItem = {
@@ -10,19 +10,26 @@ type HistoryItem = {
 type HistoryPanelProps = {
   items: HistoryItem[];
   onSelect: (item: HistoryItem) => void;
+  onClear: () => void;
 };
 
-export default function HistoryPanel({ items, onSelect }: HistoryPanelProps) {
+export default function HistoryPanel({ items, onSelect, onClear }: HistoryPanelProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Recent calculations</Text>
-        <Text style={styles.helper}>Tap to reuse</Text>
+        {items.length === 0 ? (
+          <Text style={styles.helper}>Tap to reuse</Text>
+        ) : (
+          <Pressable onPress={onClear} style={({ pressed }) => [styles.clearButton, pressed && styles.clearButtonPressed]}>
+            <Text style={styles.clearButtonText}>Clear</Text>
+          </Pressable>
+        )}
       </View>
       {items.length === 0 ? (
         <Text style={styles.placeholder}>No history yet. Start calculating!</Text>
       ) : (
-        <View style={styles.list}>
+        <ScrollView style={styles.listScroll} contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
           {items.map((item, index) => (
             <Pressable
               key={`${item.expression}-${index}`}
@@ -35,7 +42,7 @@ export default function HistoryPanel({ items, onSelect }: HistoryPanelProps) {
               <Text style={styles.result}>{item.result}</Text>
             </Pressable>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -65,12 +72,32 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontSize: typography.caption,
   },
+  clearButton: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 999,
+    backgroundColor: colors.cardElevated,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+  },
+  clearButtonPressed: {
+    opacity: 0.8,
+  },
+  clearButtonText: {
+    color: colors.textSecondary,
+    fontSize: typography.caption,
+    fontWeight: '600',
+  },
   placeholder: {
     color: colors.textMuted,
     fontSize: typography.caption,
   },
   list: {
     gap: spacing.xs,
+    paddingBottom: spacing.xs,
+  },
+  listScroll: {
+    maxHeight: 180,
   },
   item: {
     paddingVertical: spacing.sm,
