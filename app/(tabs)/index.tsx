@@ -23,7 +23,7 @@ export default function CalculatorScreen() {
     setState((prev) => {
       const next = handleInput(prev, label);
       if (label === '=' && next.expression && next.result && !next.error) {
-        setHistory((existing) => [{ expression: next.expression, result: next.result }, ...existing].slice(0, 4));
+        setHistory((existing) => [{ expression: next.expression, result: next.result }, ...existing]);
       }
       return next;
     });
@@ -35,6 +35,10 @@ export default function CalculatorScreen() {
       currentInput: item.result,
       lastAction: 'digit',
     });
+  };
+
+  const handleHistoryClear = () => {
+    setHistory([]);
   };
 
   return (
@@ -51,7 +55,7 @@ export default function CalculatorScreen() {
           </View>
         </View>
         <Display expression={expression} value={displayValue} />
-        <HistoryPanel items={history} onSelect={handleHistorySelect} />
+        <HistoryPanel items={history} onSelect={handleHistorySelect} onClear={handleHistoryClear} />
         <Keypad onPress={onPress} />
       </View>
     </SafeAreaView>
