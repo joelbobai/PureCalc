@@ -1,5 +1,6 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useMemo, useState } from "react";
-import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Display from "../../components/Display";
 import HistoryPanel from "../../components/HistoryPanel";
@@ -52,7 +53,7 @@ export default function CalculatorScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <View style={styles.content}>
         <View style={styles.header}>
           <View>
@@ -79,7 +80,7 @@ export default function CalculatorScreen() {
         <Display
           expression={expression}
           value={displayValue}
-          isHidden={isDisplayHidden}
+          // isHidden={isDisplayHidden}
         />
         <HistoryPanel
           items={history}

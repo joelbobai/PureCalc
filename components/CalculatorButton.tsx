@@ -1,8 +1,8 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import { colors, spacing, typography } from '../styles/theme';
+import React from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
+import { colors, spacing, typography } from "../styles/theme";
 
-type Variant = 'default' | 'operator' | 'accent' | 'danger' | 'wide';
+type Variant = "default" | "operator" | "accent" | "danger" | "wide";
 
 type CalculatorButtonProps = {
   label: string;
@@ -33,13 +33,17 @@ const variantStyles: Record<Variant, { background: string; text: string }> = {
   },
 };
 
-export default function CalculatorButton({ label, onPress, variant = 'default' }: CalculatorButtonProps) {
+export default function CalculatorButton({
+  label,
+  onPress,
+  variant = "default",
+}: CalculatorButtonProps) {
   const palette = variantStyles[variant];
   return (
     <Pressable
       style={({ pressed }) => [
         styles.button,
-        variant === 'wide' ? styles.wide : null,
+        variant === "wide" ? styles.wide : null,
         { backgroundColor: palette.background, opacity: pressed ? 0.85 : 1 },
       ]}
       onPress={onPress}
@@ -54,12 +58,12 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 64,
     borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     margin: spacing.xs,
     borderWidth: 1,
     borderColor: colors.cardBorder,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.22,
     shadowRadius: 10,
@@ -67,11 +71,11 @@ const styles = StyleSheet.create({
   },
   wide: {
     flex: 2,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     paddingLeft: spacing.lg,
   },
   text: {
     fontSize: typography.button,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
