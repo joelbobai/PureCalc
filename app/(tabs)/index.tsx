@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Display from "../../components/Display";
 import HistoryPanel from "../../components/HistoryPanel";
@@ -20,6 +20,7 @@ type HistoryItem = {
 export default function CalculatorScreen() {
   const [state, setState] = useState(initialState);
   const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [isHistoryHidden, setIsHistoryHidden] = useState(false);
 
   const displayValue = useMemo(() => getDisplayValue(state), [state]);
   const expression = useMemo(() => getExpression(state), [state]);
@@ -58,8 +59,21 @@ export default function CalculatorScreen() {
             <Text style={styles.title}>PureCalc</Text>
             <Text style={styles.subtitle}>Fresh look, zero permissions.</Text>
           </View>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>Offline ready</Text>
+          <View style={styles.headerControls}>
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>Offline ready</Text>
+            </View>
+            <Pressable
+              onPress={() => setIsHistoryHidden((current) => !current)}
+              style={({ pressed }) => [
+                styles.toggleButton,
+                pressed && styles.toggleButtonPressed,
+              ]}
+            >
+              <Text style={styles.toggleButtonText}>
+                {isHistoryHidden ? "Show history" : "Hide history"}
+              </Text>
+            </Pressable>
           </View>
         </View>
         <Display expression={expression} value={displayValue} />
@@ -67,6 +81,7 @@ export default function CalculatorScreen() {
           items={history}
           onSelect={handleHistorySelect}
           onClear={handleHistoryClear}
+          isHidden={isHistoryHidden}
         />
         <Keypad onPress={onPress} />
       </View>
@@ -92,6 +107,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: spacing.lg,
   },
+  headerControls: {
+    alignItems: "flex-end",
+    gap: spacing.xs,
+  },
   title: {
     color: colors.textPrimary,
     fontSize: 28,
@@ -114,5 +133,22 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     fontSize: 12,
     fontWeight: "600",
+  },
+  toggleButton: {
+    backgroundColor: colors.card,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+  },
+  toggleButtonPressed: {
+    opacity: 0.7,
+  },
+  toggleButtonText: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
   },
 });

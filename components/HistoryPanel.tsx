@@ -11,22 +11,35 @@ type HistoryPanelProps = {
   items: HistoryItem[];
   onSelect: (item: HistoryItem) => void;
   onClear: () => void;
+  isHidden?: boolean;
 };
 
-export default function HistoryPanel({ items, onSelect, onClear }: HistoryPanelProps) {
+export default function HistoryPanel({
+  items,
+  onSelect,
+  onClear,
+  isHidden = false,
+}: HistoryPanelProps) {
+  const hasItems = items.length > 0;
+  const helperText = isHidden ? 'Hidden' : hasItems ? '' : 'Tap to reuse';
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Recent calculations</Text>
-        {items.length === 0 ? (
-          <Text style={styles.helper}>Tap to reuse</Text>
-        ) : (
+        {isHidden ? (
+          <Text style={styles.helper}>{helperText}</Text>
+        ) : hasItems ? (
           <Pressable onPress={onClear} style={({ pressed }) => [styles.clearButton, pressed && styles.clearButtonPressed]}>
             <Text style={styles.clearButtonText}>Clear</Text>
           </Pressable>
+        ) : (
+          <Text style={styles.helper}>{helperText}</Text>
         )}
       </View>
-      {items.length === 0 ? (
+      {isHidden ? (
+        <Text style={styles.placeholder}>History hidden. Tap show to reveal.</Text>
+      ) : !hasItems ? (
         <Text style={styles.placeholder}>No history yet. Start calculating!</Text>
       ) : (
         <ScrollView style={styles.listScroll} contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
