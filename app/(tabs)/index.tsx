@@ -20,7 +20,7 @@ type HistoryItem = {
 export default function CalculatorScreen() {
   const [state, setState] = useState(initialState);
   const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [isDisplayHidden, setIsDisplayHidden] = useState(false);
+  const [isHistoryHidden, setIsHistoryHidden] = useState(false);
 
   const displayValue = useMemo(() => getDisplayValue(state), [state]);
   const expression = useMemo(() => getExpression(state), [state]);
@@ -64,14 +64,14 @@ export default function CalculatorScreen() {
               <Text style={styles.badgeText}>Offline ready</Text>
             </View>
             <Pressable
-              onPress={() => setIsDisplayHidden((current) => !current)}
+              onPress={() => setIsHistoryHidden((current) => !current)}
               style={({ pressed }) => [
                 styles.toggleButton,
                 pressed && styles.toggleButtonPressed,
               ]}
             >
               <Text style={styles.toggleButtonText}>
-                {isDisplayHidden ? "Show" : "Hide"}
+                {isHistoryHidden ? "Show history" : "Hide history"}
               </Text>
             </Pressable>
           </View>
@@ -85,6 +85,7 @@ export default function CalculatorScreen() {
           items={history}
           onSelect={handleHistorySelect}
           onClear={handleHistoryClear}
+          isHidden={isHistoryHidden}
         />
         <Keypad onPress={onPress} />
       </View>
