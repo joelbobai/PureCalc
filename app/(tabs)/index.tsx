@@ -1,11 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Display from '../../components/Display';
-import HistoryPanel from '../../components/HistoryPanel';
-import Keypad from '../../components/Keypad';
-import { colors, spacing } from '../../styles/theme';
-import { getDisplayValue, getExpression, handleInput, initialState } from '../../utils/calculator';
+import React, { useMemo, useState } from "react";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Display from "../../components/Display";
+import HistoryPanel from "../../components/HistoryPanel";
+import Keypad from "../../components/Keypad";
+import { colors, spacing } from "../../styles/theme";
+import {
+  getDisplayValue,
+  getExpression,
+  handleInput,
+  initialState,
+} from "../../utils/calculator";
 
 type HistoryItem = {
   expression: string;
@@ -22,8 +27,13 @@ export default function CalculatorScreen() {
   const onPress = (label: string) => {
     setState((prev) => {
       const next = handleInput(prev, label);
-      if (label === '=' && next.expression && next.result && !next.error) {
-        setHistory((existing) => [{ expression: next.expression, result: next.result }, ...existing].slice(0, 4));
+      if (label === "=" && next.expression && next.result && !next.error) {
+        setHistory((existing) =>
+          [
+            { expression: next.expression, result: next.result },
+            ...existing,
+          ].slice(0, 4),
+        );
       }
       return next;
     });
@@ -33,7 +43,7 @@ export default function CalculatorScreen() {
     setState({
       ...initialState,
       currentInput: item.result,
-      lastAction: 'digit',
+      lastAction: "digit",
     });
   };
 
@@ -68,18 +78,18 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: spacing.lg,
   },
   title: {
     color: colors.textPrimary,
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   subtitle: {
     color: colors.textMuted,
@@ -97,6 +107,6 @@ const styles = StyleSheet.create({
   badgeText: {
     color: colors.textSecondary,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
