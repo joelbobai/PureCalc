@@ -76,7 +76,11 @@ export default function CalculatorScreen() {
             </Pressable>
           </View>
         </View>
-        <Display expression={expression} value={displayValue} />
+        <Display
+          expression={expression}
+          value={displayValue}
+          isHidden={isDisplayHidden}
+        />
         <HistoryPanel
           items={history}
           onSelect={handleHistorySelect}
