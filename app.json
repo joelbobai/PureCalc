@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PureCalc",
-    "slug": "PureCalc",
+    "slug": "purecalc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.purecalc.purecalc"
     },
     "web": {
       "output": "static",
@@ -43,6 +44,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b8a830c5-a167-4919-8ca6-8c7f715e211d"
+      }
+    },
+    "owner": "joelbobai"
   }
 }
