@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { colors, spacing, typography } from '../styles/theme';
+import React from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "../styles/theme";
 
 type HistoryItem = {
   expression: string;
@@ -18,10 +18,10 @@ export default function HistoryPanel({
   items,
   onSelect,
   onClear,
-  isHidden = false,
+  isHidden = true,
 }: HistoryPanelProps) {
   const hasItems = items.length > 0;
-  const helperText = isHidden ? 'Hidden' : hasItems ? '' : 'Tap to reuse';
+  const helperText = isHidden ? "Hidden" : hasItems ? "" : "Tap to reuse";
 
   return (
     <View style={styles.container}>
@@ -30,7 +30,13 @@ export default function HistoryPanel({
         {isHidden ? (
           <Text style={styles.helper}>{helperText}</Text>
         ) : hasItems ? (
-          <Pressable onPress={onClear} style={({ pressed }) => [styles.clearButton, pressed && styles.clearButtonPressed]}>
+          <Pressable
+            onPress={onClear}
+            style={({ pressed }) => [
+              styles.clearButton,
+              pressed && styles.clearButtonPressed,
+            ]}
+          >
             <Text style={styles.clearButtonText}>Clear</Text>
           </Pressable>
         ) : (
@@ -38,16 +44,27 @@ export default function HistoryPanel({
         )}
       </View>
       {isHidden ? (
-        <Text style={styles.placeholder}>History hidden. Tap show to reveal.</Text>
+        <Text style={styles.placeholder}>
+          History hidden. Tap show to reveal.
+        </Text>
       ) : !hasItems ? (
-        <Text style={styles.placeholder}>No history yet. Start calculating!</Text>
+        <Text style={styles.placeholder}>
+          No history yet. Start calculating!
+        </Text>
       ) : (
-        <ScrollView style={styles.listScroll} contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.listScroll}
+          contentContainerStyle={styles.list}
+          showsVerticalScrollIndicator={false}
+        >
           {items.map((item, index) => (
             <Pressable
               key={`${item.expression}-${index}`}
               onPress={() => onSelect(item)}
-              style={({ pressed }) => [styles.item, pressed && styles.itemPressed]}
+              style={({ pressed }) => [
+                styles.item,
+                pressed && styles.itemPressed,
+              ]}
             >
               <Text style={styles.expression} numberOfLines={1}>
                 {item.expression}
@@ -71,15 +88,15 @@ const styles = StyleSheet.create({
     borderColor: colors.cardBorder,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
     marginBottom: spacing.sm,
   },
   title: {
     color: colors.textPrimary,
     fontSize: typography.label,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   helper: {
     color: colors.textMuted,
@@ -99,7 +116,7 @@ const styles = StyleSheet.create({
   clearButtonText: {
     color: colors.textSecondary,
     fontSize: typography.caption,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   placeholder: {
     color: colors.textMuted,
@@ -130,7 +147,7 @@ const styles = StyleSheet.create({
   result: {
     color: colors.textPrimary,
     fontSize: typography.expression,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: spacing.xs,
   },
 });
