@@ -22,6 +22,7 @@ export default function CalculatorScreen() {
   const [state, setState] = useState(initialState);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isHistoryHidden, setIsHistoryHidden] = useState(false);
+  const [stats, setStats] = useState({ total: 0, lastResult: "—" });
 
   const displayValue = useMemo(() => getDisplayValue(state), [state]);
   const expression = useMemo(() => getExpression(state), [state]);
@@ -34,6 +35,10 @@ export default function CalculatorScreen() {
           { expression: next.expression, result: next.result },
           ...existing,
         ]);
+        setStats((current) => ({
+          total: current.total + 1,
+          lastResult: next.result ?? current.lastResult,
+        }));
       }
       return next;
     });
@@ -76,6 +81,28 @@ export default function CalculatorScreen() {
               </Text>
             </Pressable>
           </View>
+        </View>
+        <View style={styles.statsCard}>
+          <View style={styles.statsRow}>
+            <View style={styles.statBlock}>
+              <Text style={styles.statLabel}>Calculations</Text>
+              <Text style={styles.statValue}>{stats.total}</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statBlock}>
+              <Text style={styles.statLabel}>Last result</Text>
+              <Text style={styles.statValue}>{stats.lastResult}</Text>
+            </View>
+          </View>
+          <Pressable
+            onPress={() => setStats({ total: 0, lastResult: "—" })}
+            style={({ pressed }) => [
+              styles.resetButton,
+              pressed && styles.resetButtonPressed,
+            ]}
+          >
+            <Text style={styles.resetButtonText}>Reset stats</Text>
+          </Pressable>
         </View>
         <Display
           expression={expression}
@@ -151,6 +178,57 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   toggleButtonText: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
+  },
+  statsCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  statsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  statBlock: {
+    flex: 1,
+    gap: spacing.xs,
+  },
+  statLabel: {
+    color: colors.textMuted,
+    fontSize: 12,
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+  },
+  statValue: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  statDivider: {
+    width: 1,
+    height: "100%",
+    backgroundColor: colors.cardBorder,
+    marginHorizontal: spacing.md,
+  },
+  resetButton: {
+    alignSelf: "flex-start",
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+  },
+  resetButtonPressed: {
+    opacity: 0.7,
+  },
+  resetButtonText: {
     color: colors.textSecondary,
     fontSize: 12,
     fontWeight: "600",
