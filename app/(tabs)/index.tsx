@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Display from "../../components/Display";
 import HistoryPanel from "../../components/HistoryPanel";
@@ -59,7 +59,11 @@ export default function CalculatorScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.header}>
           <View>
             <Text style={styles.title}>PureCalc</Text>
@@ -116,7 +120,7 @@ export default function CalculatorScreen() {
           isHidden={isHistoryHidden}
         />
         <Keypad onPress={onPress} />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -131,7 +135,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
     justifyContent: "space-between",
+    gap: spacing.md,
   },
   header: {
     flexDirection: "row",
