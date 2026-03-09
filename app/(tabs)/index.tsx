@@ -23,6 +23,11 @@ export default function CalculatorScreen() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isHistoryHidden, setIsHistoryHidden] = useState(false);
   const [stats, setStats] = useState({ total: 0, lastResult: "—" });
+  const [memorySlots, setMemorySlots] = useState<(string | null)[]>([
+    null,
+    null,
+    null,
+  ]);
 
   const displayValue = useMemo(() => getDisplayValue(state), [state]);
   const expression = useMemo(() => getExpression(state), [state]);
@@ -54,6 +59,27 @@ export default function CalculatorScreen() {
 
   const handleHistoryClear = () => {
     setHistory([]);
+  };
+
+  const handleSaveMemory = (index: number) => {
+    setMemorySlots((existing) => {
+      const next = [...existing];
+      next[index] = displayValue;
+      return next;
+    });
+  };
+
+  const handleRecallMemory = (index: number) => {
+    const value = memorySlots[index];
+    if (!value) {
+      return;
+    }
+
+    setState({
+      ...initialState,
+      currentInput: value,
+      lastAction: "digit",
+    });
   };
 
   return (
@@ -107,6 +133,44 @@ export default function CalculatorScreen() {
           >
             <Text style={styles.resetButtonText}>Reset stats</Text>
           </Pressable>
+        </View>
+        <View style={styles.memoryCard}>
+          <Text style={styles.memoryTitle}>Permission-free memory</Text>
+          <Text style={styles.memorySubtitle}>
+            Save and recall results locally. Nothing leaves your device.
+          </Text>
+          <View style={styles.memoryRow}>
+            {memorySlots.map((slot, index) => (
+              <View key={`memory-${index}`} style={styles.memorySlot}>
+                <Text style={styles.memoryLabel}>M{index + 1}</Text>
+                <Text numberOfLines={1} style={styles.memoryValue}>
+                  {slot ?? "Empty"}
+                </Text>
+                <View style={styles.memoryActions}>
+                  <Pressable
+                    onPress={() => handleSaveMemory(index)}
+                    style={({ pressed }) => [
+                      styles.memoryButton,
+                      pressed && styles.memoryButtonPressed,
+                    ]}
+                  >
+                    <Text style={styles.memoryButtonText}>Save</Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => handleRecallMemory(index)}
+                    style={({ pressed }) => [
+                      styles.memoryButton,
+                      !slot && styles.memoryButtonDisabled,
+                      pressed && styles.memoryButtonPressed,
+                    ]}
+                    disabled={!slot}
+                  >
+                    <Text style={styles.memoryButtonText}>Recall</Text>
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
         <Display
           expression={expression}
@@ -239,6 +303,71 @@ const styles = StyleSheet.create({
   resetButtonText: {
     color: colors.textSecondary,
     fontSize: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
+  },
+  memoryCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  memoryTitle: {
+    color: colors.textPrimary,
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  memorySubtitle: {
+    color: colors.textMuted,
+    fontSize: 12,
+  },
+  memoryRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+  },
+  memorySlot: {
+    flex: 1,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    borderRadius: 12,
+    padding: spacing.sm,
+    gap: spacing.xs,
+  },
+  memoryLabel: {
+    color: colors.textMuted,
+    fontSize: 11,
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+  },
+  memoryValue: {
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  memoryActions: {
+    flexDirection: "row",
+    gap: spacing.xs,
+  },
+  memoryButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    borderRadius: 8,
+    paddingVertical: 6,
+    alignItems: "center",
+  },
+  memoryButtonDisabled: {
+    opacity: 0.45,
+  },
+  memoryButtonPressed: {
+    opacity: 0.7,
+  },
+  memoryButtonText: {
+    color: colors.textSecondary,
+    fontSize: 11,
     fontWeight: "600",
     textTransform: "uppercase",
   },
